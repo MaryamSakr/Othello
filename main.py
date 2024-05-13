@@ -121,7 +121,7 @@ class Board:
                     if self.cells[a][i] == p_num:
                         return True
             if b > 0 and self.cells[a][b - 1] != p_num and self.cells[a][b - 1] != 0:
-                for i in range(b - 1):
+                for i in range(b - 1, 0, -1):
                     if self.cells[a][i] == 0:
                         break
                     if self.cells[a][i] == p_num:
@@ -133,7 +133,7 @@ class Board:
                     if self.cells[i][b] == p_num:
                         return True
             if a > 0 and self.cells[a - 1][b] != p_num and self.cells[a - 1][b] != 0:
-                for i in range(a - 1):
+                for i in range(a - 1, 0, -1):
                     if self.cells[i][b] == 0:
                         break
                     if self.cells[i][b] == p_num:
