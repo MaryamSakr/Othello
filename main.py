@@ -2,7 +2,6 @@ import math
 
 
 class Board:
-
     def __init__(self):
         self.player2 = None
         self.player1 = None
@@ -26,19 +25,23 @@ class Board:
         for i in range(b - 1):
             if self.cells[a][i] == p.num:
                 for j in range(i, b):
-                    self.cells[a][j] = p.num
+                    if self.cells[a][j] != 0:
+                        self.cells[a][j] = p.num
         for i in range(b + 2, 8):
             if self.cells[a][i] == p.num:
                 for j in range(b, i):
-                    self.cells[a][j] = p.num
+                    if self.cells[a][j] != 0:
+                        self.cells[a][j] = p.num
         for i in range(a - 1):
             if self.cells[i][b] == p.num:
                 for j in range(i, a):
-                    self.cells[j][b] = p.num
+                    if self.cells[j][b] != 0:
+                        self.cells[j][b] = p.num
         for i in range(a + 2, 8):
             if self.cells[i][b] == p.num:
                 for j in range(a, i):
-                    self.cells[j][b] = p.num
+                    if self.cells[j][b] != 0:
+                        self.cells[j][b] = p.num
 
     def instruction_display(self):
         print("\nPlease, follow the instructions ..")
@@ -161,7 +164,6 @@ class Board:
 
 
 class Player:
-
     def __init__(self, x, n):
         self.num = x
         self.name = n
@@ -232,7 +234,6 @@ class AIPlayer(Player):
 
 
 class Game:
-
     def run(self):
         print("\nWelcome to Othello Game !!\n")
         Quit = False
@@ -255,8 +256,9 @@ class Game:
                 board = Board()
                 board.instruction_display()
                 board.set_players(player, AI_player)
+                board.display()
+
                 while True:
-                    board.display()
                     valid_move = False
                     while not valid_move:
                         print("Player", player.num, ":\nYour turn,", player.name, "..\nYour available pieces =",
