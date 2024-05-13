@@ -101,12 +101,12 @@ class Board:
                 print("Your pieces have been run out,", self.player1.name, "!")
             elif self.player2.available_pieces == 0:
                 print("Your pieces have been run out,", self.player2.name, "!")
-            if board.winner() == board.player1.num:
-                print("\nCongratulations", board.player1.name, "( Player", board.player1.num, ") you won!\n")
-                print("Hard luck", board.player2.name, "( Player", board.player2.num, ") ..\n")
-            elif board.winner() == board.player2.num:
-                print("\nCongratulations", board.player2.name, "( Player", board.player2.num, ") you won!\n")
-                print("Hard luck", board.player1.name, "( Player", board.player1.num, ") ..\n")
+            if self.winner() == self.player1.num:
+                print("\nCongratulations", self.player1.name, "( Player", self.player1.num, ") you won!\n")
+                print("Hard luck", self.player2.name, "( Player", self.player2.num, ") ..\n")
+            elif self.winner() == self.player2.num:
+                print("\nCongratulations", self.player2.name, "( Player", self.player2.num, ") you won!\n")
+                print("Hard luck", self.player1.name, "( Player", self.player1.num, ") ..\n")
             else:
                 print("\nWow! It is tie ..\n")
             return True
@@ -136,7 +136,7 @@ class Board:
         valid = []
         for i in range(8):
             for j in range(8):
-                if board.valid_move(i, j, player.num):
+                if self.valid_move(i, j, p_num):
                     valid.append("(" + str(i) + "," + str(j) + ")")
         return valid
 
@@ -167,127 +167,140 @@ class AIPlayer(Player):
 #                          Main Game                          #
 ###############################################################
 
-print("\nWelcome to Othello Game !!\n")
-Quit = False
-while not Quit:
-    print("Please choose :")
-    print("     (1) For one player.")
-    print("     (2) For two players.")
-    print("     (3) Quit the game.\n")
-    main_choice = int(input("Enter your choice : "))
 
-    if main_choice == 1:
-        print("\nPlayer 1 starts (Black) ..\n")
-        choice = int(input(print("Do you want to be player 1 or 2 ? ")))
-        name = input("Enter your name : ")
-        player = Player(choice, name)
-        if choice == 1:
-            AI_player = AIPlayer(2, "Computer")             # Computer
-        else:
-            AI_player = AIPlayer(1, "Computer")             # Computer
 
-        board = Board()
-        board.instruction_display()
-        board.set_players(player, AI_player)
-        while True:
-            board.display()
-            valid_move = False
-            while not valid_move:
-                print("Player", player.num, ":\nYour turn,", player.name, "..\nYour available pieces =", player.available_pieces, "\n")
-                print("Your valid choices are :")
-                valid_moves = board.valid_moves(player.num)
-                if len(valid_moves) == 0:
-                    print("Sorry! No valid moves for you :(")
-                    print("I have to skip your turn ..\n")
-                    break
+
+class Game:
+
+    def run(self):
+        print("\nWelcome to Othello Game !!\n")
+        Quit = False
+        while not Quit:
+            print("Please choose :")
+            print("     (1) For one player.")
+            print("     (2) For two players.")
+            print("     (3) Quit the game.\n")
+            main_choice = int(input("Enter your choice : "))
+
+            if main_choice == 1:
+                print("\nPlayer 1 starts (Black) ..\n")
+                choice = int(input("Do you want to be player 1 or 2 ? "))
+                name = input("Enter your name : ")
+                player = Player(choice, name)
+                if choice == 1:
+                    AI_player = AIPlayer(2, "Computer")  # Computer
                 else:
-                    for move in valid_moves:
-                        print("     ", move)
-                    x = int(input("\nEnter first index (row) : "))
-                    y = int(input("Enter second index (column) : "))
+                    AI_player = AIPlayer(1, "Computer")  # Computer
 
-                    if board.valid_move(x, y, player.num):
-                        board.update(x, y, player)
-                        player.available_pieces -= 1
-                        valid_move = True
-                    else:
-                        print("Invalid cell ..\nPlease choose a valid one ..\n")
+                board = Board()
+                board.instruction_display()
+                board.set_players(player, AI_player)
+                while True:
+                    board.display()
+                    valid_move = False
+                    while not valid_move:
+                        print("Player", player.num, ":\nYour turn,", player.name, "..\nYour available pieces =",
+                              player.available_pieces, "\n")
+                        print("Your valid choices are :")
+                        valid_moves = board.valid_moves(player.num)
+                        if len(valid_moves) == 0:
+                            print("Sorry! No valid moves for you :(")
+                            print("I have to skip your turn ..\n")
+                            break
+                        else:
+                            for move in valid_moves:
+                                print("     ", move)
+                            x = int(input("\nEnter first index (row) : "))
+                            y = int(input("Enter second index (column) : "))
 
-            board.display()
-            if board.check_winner():
-                break
+                            if board.valid_move(x, y, player.num):
+                                board.update(x, y, player)
+                                player.available_pieces -= 1
+                                valid_move = True
+                            else:
+                                print("Invalid cell ..\nPlease choose a valid one ..\n")
 
-            AI_player.pick_move(board)
-            board.display()
-            if board.check_winner():
-                break
+                    board.display()
+                    if board.check_winner():
+                        break
 
-    elif main_choice == 2:
-        print("\nPlayer 1 (Black) starts ..\n")
-        name1 = input("Enter player-1's name : ")
-        player1 = Player(1, name1)
-        name2 = input("Enter player-2's name : ")
-        player2 = Player(2, name2)
+                    AI_player.pick_move(board)
+                    board.display()
+                    if board.check_winner():
+                        break
 
-        board = Board()
-        board.instruction_display()
-        board.set_players(player1, player2)
-        board.display()
+            elif main_choice == 2:
+                print("\nPlayer 1 (Black) starts ..\n")
+                name1 = input("Enter player-1's name : ")
+                player1 = Player(1, name1)
+                name2 = input("Enter player-2's name : ")
+                player2 = Player(2, name2)
 
-        while True:
-            valid_move = False
-            while not valid_move:
-                print("Player 1 :\n", player1.name, "'s turn ..\nYour available pieces = ", player1.available_pieces, "\n", sep='')
-                print("Your valid choices are :")
-                valid_moves1 = board.valid_moves(player1.num)
-                if len(valid_moves1) == 0:
-                    print("Sorry! No valid moves for you :(")
-                    print("I have to skip your turn ..\n")
-                    break
-                else:
-                    for move in valid_moves1:
-                        print("     ", move)
-                    x1 = int(input("\nEnter first index (row) : "))
-                    y1 = int(input("Enter second index (column) : "))
-                    if board.valid_move(x1, y1, 1):
-                        board.update(x1, y1, player1)
-                        player1.available_pieces -= 1
-                        valid_move = True
-                    else:
-                        print("\nInvalid cell ..\nPlease choose a valid one ..\n")
-            board.display()
-            if board.check_winner():
-                break
+                board = Board()
+                board.instruction_display()
+                board.set_players(player1, player2)
+                board.display()
 
-            valid_move = False
-            while not valid_move:
-                print("Player 2 :\n", player2.name, "'s turn ..\nYour available pieces = ", player2.available_pieces, "\n", sep='')
-                print("Your valid choices are :")
-                valid_moves2 = board.valid_moves(player2.num)
-                if len(valid_moves2) == 0:
-                    print("Sorry! No valid moves for you :(")
-                    print("I have to skip your turn ..\n")
-                    break
-                else:
-                    for move in valid_moves2:
-                        print("     ", move)
-                    x2 = int(input("\nEnter first index (row) : "))
-                    y2 = int(input("Enter second index (column) : "))
-                    if board.valid_move(x2, y2, 2):
-                        board.update(x2, y2, player2)
-                        player2.available_pieces -= 1
-                        valid_move = True
-                    else:
-                        print("\nInvalid cell :(\nPlease choose a valid one ..\n")
-            board.display()
-            if board.check_winner():
-                break
+                while True:
+                    valid_move = False
+                    while not valid_move:
+                        print("Player 1 :\n", player1.name, "'s turn ..\nYour available pieces = ",
+                              player1.available_pieces, "\n", sep='')
+                        print("Your valid choices are :")
+                        valid_moves1 = board.valid_moves(player1.num)
+                        if len(valid_moves1) == 0:
+                            print("Sorry! No valid moves for you :(")
+                            print("I have to skip your turn ..\n")
+                            break
+                        else:
+                            for move in valid_moves1:
+                                print("     ", move)
+                            x1 = int(input("\nEnter first index (row) : "))
+                            y1 = int(input("Enter second index (column) : "))
+                            if board.valid_move(x1, y1, 1):
+                                board.update(x1, y1, player1)
+                                player1.available_pieces -= 1
+                                valid_move = True
+                            else:
+                                print("\nInvalid cell ..\nPlease choose a valid one ..\n")
+                    board.display()
+                    if board.check_winner():
+                        break
 
-    elif main_choice == 3:
-        print("\nThank you for playing our Othello Game !!!")
-        print("We hope you enjoyed and this is not the last time to play it .. Bye.")
-        Quit = True
+                    valid_move = False
+                    while not valid_move:
+                        print("Player 2 :\n", player2.name, "'s turn ..\nYour available pieces = ",
+                              player2.available_pieces, "\n", sep='')
+                        print("Your valid choices are :")
+                        valid_moves2 = board.valid_moves(player2.num)
+                        if len(valid_moves2) == 0:
+                            print("Sorry! No valid moves for you :(")
+                            print("I have to skip your turn ..\n")
+                            break
+                        else:
+                            for move in valid_moves2:
+                                print("     ", move)
+                            x2 = int(input("\nEnter first index (row) : "))
+                            y2 = int(input("Enter second index (column) : "))
+                            if board.valid_move(x2, y2, 2):
+                                board.update(x2, y2, player2)
+                                player2.available_pieces -= 1
+                                valid_move = True
+                            else:
+                                print("\nInvalid cell :(\nPlease choose a valid one ..\n")
+                    board.display()
+                    if board.check_winner():
+                        break
 
-    else:
-        print("\nInvalid choice :(\nTry again ..\n")
+            elif main_choice == 3:
+                print("\nThank you for playing our Othello Game !!!")
+                print("We hope you enjoyed and this is not the last time to play it .. Bye.")
+                Quit = True
 
+            else:
+                print("\nInvalid choice :(\nTry again ..\n")
+
+
+if __name__ == "__main__":
+    game = Game()
+    game.run()
