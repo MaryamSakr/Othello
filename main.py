@@ -251,9 +251,9 @@ class Game:
                 hardLevel = int(input("\n(1) Easy .\n(2) Medium .\n(3) Hard.\n  "))
                 if (hardLevel < 4):
                     if choice == 1:
-                        AI_player = AIPlayer(2, "Computer", hardLevel + 2)  # Computer
+                        AI_player = AIPlayer(2, "Computer", hardLevel + 3)  # Computer
                     else:
-                        AI_player = AIPlayer(1, "Computer", hardLevel + 2)  # Computer
+                        AI_player = AIPlayer(1, "Computer", hardLevel + 3)  # Computer
 
                 board = Board()
                 board.instruction_display()
@@ -267,6 +267,7 @@ class Game:
                               player.available_pieces, "\n")
                         valid_moves = board.valid_moves(player.num)
                         if len(valid_moves) == 0:
+                            player.available_pieces -=1
                             print("Sorry! No valid moves for you :(")
                             print("I have to skip your turn ..\n")
                             break
