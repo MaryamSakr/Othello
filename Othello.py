@@ -139,6 +139,17 @@ class Board:
                 if board.valid_move(i, j, player.num):
                     valid.append("(" + str(i) + "," + str(j) + ")")
         return valid
+        
+    def utility(self):
+        black_count = sum(row.count(1) for row in self.cells)
+        white_count = sum(row.count(2) for row in self.cells)
+
+        if black_count > white_count:
+            return 1  
+        elif white_count > black_count:
+            return -1  
+        else:
+            return 0  
 
 
 ##############################################################
