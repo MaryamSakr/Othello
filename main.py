@@ -2,6 +2,7 @@ import math
 
 
 class Board:
+
     def __init__(self):
         self.player2 = None
         self.player1 = None
@@ -115,18 +116,26 @@ class Board:
         if 0 <= b < 8 and 8 > a >= 0 == self.cells[a][b]:
             if b < 7 and self.cells[a][b + 1] != p_num and self.cells[a][b + 1] != 0:
                 for i in range(b + 2, 8):
+                    if self.cells[a][i] == 0:
+                        break
                     if self.cells[a][i] == p_num:
                         return True
             if b > 0 and self.cells[a][b - 1] != p_num and self.cells[a][b - 1] != 0:
                 for i in range(b - 1):
+                    if self.cells[a][i] == 0:
+                        break
                     if self.cells[a][i] == p_num:
                         return True
             if a < 7 and self.cells[a + 1][b] != p_num and self.cells[a + 1][b] != 0:
                 for i in range(a + 2, 8):
+                    if self.cells[i][b] == 0:
+                        break
                     if self.cells[i][b] == p_num:
                         return True
             if a > 0 and self.cells[a - 1][b] != p_num and self.cells[a - 1][b] != 0:
                 for i in range(a - 1):
+                    if self.cells[i][b] == 0:
+                        break
                     if self.cells[i][b] == p_num:
                         return True
         return False
@@ -152,6 +161,7 @@ class Board:
 
 
 class Player:
+
     def __init__(self, x, n):
         self.num = x
         self.name = n
@@ -227,8 +237,8 @@ class Game:
         print("\nWelcome to Othello Game !!\n")
         Quit = False
         while not Quit:
-            print("Please choose :")
-            print("     (1) playerwith computer.\n")
+            print("Please choose :\n")
+            print("     (1) Play with computer.")
             print("     (2) Quit the game.\n")
             main_choice = int(input("Enter your choice : "))
 
@@ -251,13 +261,13 @@ class Game:
                     while not valid_move:
                         print("Player", player.num, ":\nYour turn,", player.name, "..\nYour available pieces =",
                               player.available_pieces, "\n")
-                        print("Your valid choices are :")
                         valid_moves = board.valid_moves(player.num)
                         if len(valid_moves) == 0:
                             print("Sorry! No valid moves for you :(")
                             print("I have to skip your turn ..\n")
                             break
                         else:
+                            print("Your valid choices are :")
                             for move in valid_moves:
                                 print("     ", move)
                             x = int(input("\nEnter first index (row) : "))
@@ -278,8 +288,6 @@ class Game:
                     board.display()
                     if board.check_winner():
                         break
-
-
 
             elif main_choice == 2:
                 print("\nThank you for playing our Othello Game !!!")
