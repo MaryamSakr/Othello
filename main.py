@@ -177,7 +177,7 @@ class AIPlayer(Player):
         self.depth = depth
 
     def pick_move(self, board):
-        move = self.minimax(board, self.depth, self.num, -math.inf, math.inf)
+        move = self.alpha_beta(board, self.depth, self.num, -math.inf, math.inf)
         if move is not None:
             if move[1] is not None:  # Check if the move is not None
                 board.update(move[1][0], move[1][1], self)
@@ -188,14 +188,14 @@ class AIPlayer(Player):
             print("No valid moves available. Skipping turn.")
             self.available_pieces -= 1
 
-    def minimax(self, board, depth, player, alpha, beta):
+    def alpha_beta(self, board, depth, player, alpha, beta):
         if depth == 0 or board.is_full():
             return board.utility(), None
 
         valid_moves = board.valid_moves(player)
         if not valid_moves:
             if board.valid_moves(3 - player):
-                return self.minimax(board, depth - 1, 3 - player, alpha, beta)[0], None
+                return self.alpha_beta(board, depth - 1, 3 - player, alpha, beta)[0], None
             else:
                 return board.utility(), None
 
@@ -204,7 +204,7 @@ class AIPlayer(Player):
             best_move = None
             for move in valid_moves:
                 new_board = self.simulate_move(board, move, player)
-                val = self.minimax(new_board, depth - 1, 3 - player, alpha, beta)[0]
+                val = self.alpha_beta(new_board, depth - 1, 3 - player, alpha, beta)[0]
                 if val > max_val:
                     max_val = val
                     best_move = move
@@ -217,7 +217,7 @@ class AIPlayer(Player):
             best_move = None
             for move in valid_moves:
                 new_board = self.simulate_move(board, move, player)
-                val = self.minimax(new_board, depth - 1, 3 - player, alpha, beta)[0]
+                val = self.alpha_beta(new_board, depth - 1, 3 - player, alpha, beta)[0]
                 if val < min_val:
                     min_val = val
                     best_move = move
@@ -248,10 +248,12 @@ class Game:
                 choice = int(input("Do you want to be player 1 or 2 ? "))
                 name = input("Enter your name : ")
                 player = Player(choice, name)
-                if choice == 1:
-                    AI_player = AIPlayer(2, "Computer", 3)  # Computer
-                else:
-                    AI_player = AIPlayer(1, "Computer", 3)  # Computer
+                hardLevel = int(input("\n(1) Easy .\n(2) Medium .\n(3) Hard.\n  "))
+                if (hardLevel < 4):
+                    if choice == 1:
+                        AI_player = AIPlayer(2, "Computer", hardLevel + 2)  # Computer
+                    else:
+                        AI_player = AIPlayer(1, "Computer", hardLevel + 2)  # Computer
 
                 board = Board()
                 board.instruction_display()
