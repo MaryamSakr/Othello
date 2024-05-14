@@ -337,26 +337,30 @@ class Board:
 
     def update(self, a, b, p):
         self.cells[a][b] = p.num
-        for i in range(b - 1):
+        for i in range(b - 1, -1, -1):
+            if self.cells[a][i] == 0:
+                break
             if self.cells[a][i] == p.num:
                 for j in range(i, b):
-                    if self.cells[a][j] != 0:
-                        self.cells[a][j] = p.num
-        for i in range(b + 2, 8):
+                    self.cells[a][j] = p.num
+        for i in range(b + 1, 8):
+            if self.cells[a][i] == 0:
+                break
             if self.cells[a][i] == p.num:
                 for j in range(b, i):
-                    if self.cells[a][j] != 0:
-                        self.cells[a][j] = p.num
-        for i in range(a - 1):
+                    self.cells[a][j] = p.num
+        for i in range(a - 1, -1, -1):
+            if self.cells[i][b] == 0:
+                break
             if self.cells[i][b] == p.num:
                 for j in range(i, a):
-                    if self.cells[j][b] != 0:
-                        self.cells[j][b] = p.num
-        for i in range(a + 2, 8):
+                    self.cells[j][b] = p.num
+        for i in range(a + 1, 8):
+            if self.cells[i][b] == 0:
+                break
             if self.cells[i][b] == p.num:
                 for j in range(a, i):
-                    if self.cells[j][b] != 0:
-                        self.cells[j][b] = p.num
+                    self.cells[j][b] = p.num
 
     def display(self):
             p1 = 0
@@ -427,7 +431,7 @@ class Board:
                     if self.cells[a][i] == p_num:
                         return True
             if b > 0 and self.cells[a][b - 1] != p_num and self.cells[a][b - 1] != 0:
-                for i in range(b - 1, 0, -1):
+                for i in range(b - 2, -1, -1):
                     if self.cells[a][i] == 0:
                         break
                     if self.cells[a][i] == p_num:
@@ -439,7 +443,7 @@ class Board:
                     if self.cells[i][b] == p_num:
                         return True
             if a > 0 and self.cells[a - 1][b] != p_num and self.cells[a - 1][b] != 0:
-                for i in range(a - 1, 0, -1):
+                for i in range(a - 2, -1, -1):
                     if self.cells[i][b] == 0:
                         break
                     if self.cells[i][b] == p_num:
