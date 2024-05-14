@@ -20,7 +20,32 @@ class Board:
         self.player1 = p1
         self.player2 = p2
 
-
+        def update(self, a, b, p):
+            self.cells[a][b] = p.num
+            for i in range(b - 1, -1, -1):
+                if self.cells[a][i] == 0:
+                    break
+                if self.cells[a][i] == p.num:
+                    for j in range(i, b):
+                        self.cells[a][j] = p.num
+            for i in range(b + 1, 8):
+                if self.cells[a][i] == 0:
+                    break
+                if self.cells[a][i] == p.num:
+                    for j in range(b, i):
+                        self.cells[a][j] = p.num
+            for i in range(a - 1, -1, -1):
+                if self.cells[i][b] == 0:
+                    break
+                if self.cells[i][b] == p.num:
+                    for j in range(i, a):
+                        self.cells[j][b] = p.num
+            for i in range(a + 1, 8):
+                if self.cells[i][b] == 0:
+                    break
+                if self.cells[i][b] == p.num:
+                    for j in range(a, i):
+                        self.cells[j][b] = p.num
 
     def update(self, a, b, p):
         self.cells[a][b] = p.num
@@ -121,6 +146,14 @@ class Board:
                 print("\nWow! It is tie ..\n")
                 return 0
 
+
+    def valid_moves(self, p_num):
+        valid = []
+        for i in range(8):
+            for j in range(8):
+                if self.valid_move(i, j, p_num):
+                    valid.append((i, j))
+        return valid
 
     def utility(self):
         black_count = sum(row.count(1) for row in self.cells)
