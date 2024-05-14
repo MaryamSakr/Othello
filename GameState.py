@@ -33,8 +33,10 @@ def draw_text(text, font, color, x, y):
         text_rect = text_surface.get_rect(center=(x, y + i * font.get_height()))
         screen.blit(text_surface, text_rect)
 
+
 pygame.mixer.init()
 move_sound = pygame.mixer.Sound("move.wav")
+
 
 class GameState:
     def __init__(self, player_name, player_num, level):
@@ -46,8 +48,10 @@ class GameState:
         self.p1 = Player(int(self.player_num), self.player_name)
         if self.player_num == "1":
             self.p2 = AIPlayer(2, "computer", self.level)
+            self.board.set_players(self.p1, self.p2)
         else:
             self.p2 = AIPlayer(1, "computer", self.level)
+            self.board.set_players(self.p2, self.p1)
         self.check = False
         if self.player_num == "1":
             self.is_player_turn = True
@@ -73,8 +77,6 @@ class GameState:
                         print("Invalid cell ..\nPlease choose a valid one ..\n")
 
     def draw(self):
-
-
         self.board.set_players(self.p1, self.p2)
         screen.fill(black)
         draw_text("Player: " + self.player_name, font_small, white, screen_width // 2, 60)
@@ -88,7 +90,6 @@ class GameState:
         for j in range(8):
             draw_text(str(j), font_small, white, 45 + j * 50 + 25, 180)
 
-
         for i in range(8):
             for j in range(8):
                 if (i + j) % 2 == 0:
@@ -101,16 +102,23 @@ class GameState:
                     pygame.draw.circle(screen, black, (75 + j * 50, 225 + i * 50), 20)
                 elif self.board.cells[i][j] == 2:  # Player 2's disk
                     pygame.draw.circle(screen, white, (75 + j * 50, 225 + i * 50), 20)
+                # Draw available moves
+                elif self.board.valid_move(i, j, int(self.player_num)):
+                    if self.player_num == "1":
+                        pygame.draw.circle(screen, black, (75 + j * 50, 225 + i * 50), 20, 2)
+                    elif self.player_num == "2":
+                        pygame.draw.circle(screen, white, (75 + j * 50, 225 + i * 50), 20, 2)
 
         draw_text("Welcome to Othello!", font_large, white, screen_width // 2, 30)
         black_count = sum(row.count(1) for row in self.board.cells)
         white_count = sum(row.count(2) for row in self.board.cells)
-        draw_text("Score:", font_large, white, screen_width//2+100, 200)
-        draw_text("Black Score: " + str(black_count) +"       White Score: " + str(white_count) , font_small , white , screen_width//2+230, 230 )
+        draw_text("Score:", font_large, white, screen_width // 2 + 100, 200)
+        draw_text("Black Score: " + str(black_count) + "       White Score: " + str(white_count), font_small, white,
+                  screen_width // 2 + 230, 230)
 
         if self.is_player_turn:
-            draw_text("Player" + str(self.player_num) + ":\nYour turn," + self.player_name +
-                      "..\nYour available pieces =" + str(self.p1.available_pieces), font_small, white,
+            draw_text("Player " + str(self.player_num) + ":\nYour turn, " + self.player_name +
+                      "..\nYour available pieces = " + str(self.p1.available_pieces), font_small, white,
                       screen_width // 2 + 250, screen_height // 2 - 50)
             valid_moves = self.board.valid_moves(int(self.player_num))
             if len(valid_moves) == 0:
@@ -136,20 +144,12 @@ class GameState:
             self.is_player_turn = False
             move_sound.play()
 
-        if self.board.check_winner() == 1 or self.board.check_winner() == 2 or self.board.check_winner() == 0 :
-            # draw_text(self.board.check_winner(), font_small, white, screen_width // 2 + 250, screen_height // 2)
-
-            if self.board.check_winner() == 1:
-                draw_text("Player 1 Is Winner", font_small, white, screen_width // 2 + 250, screen_height // 2)
-                time.sleep(3)
-            elif self.board.check_winner() == 2:
-                draw_text("Player 2 Is Winner", font_small, white, screen_width // 2 + 250, screen_height // 2)
-                time.sleep(3)
-            else:
-                draw_text("Wow it is Tie !", font_small, white, screen_width // 2 + 250, screen_height // 2)
-            time.sleep(3)
-
+        if self.board.check_winner() != "":
+            draw_text(self.board.check_winner(), font_large, white, screen_width // 2 + 225, screen_height // 2 + 125)
+            pygame.display.flip()
+            time.sleep(10)
             sys.exit()
+
         if not self.is_player_turn:
             self.p2.pick_move(self.board)
             self.p2.available_pieces -= 1

@@ -45,9 +45,9 @@ class InstructionScreen:
                     return "game"
 
     def draw(self):
-        pygame.draw.rect(screen,blue, self.name_button_rect)
-        draw_text("Start", font_small, white, screen_width // 2 -10,  screen_height//2 + 20)
+        pygame.draw.rect(screen, blue, self.name_button_rect)
+        draw_text("Start", font_small, white, screen_width // 2 - 10,  screen_height // 2 + 20)
 
-        draw_text("Please, follow the instructions .. \nEach player has 30 pieces only. "
-              "If they run out, the game ends. \nChoose a cell from the board and enter its "
-              "indices as shown in the following board ..", font_small, white, screen_width // 2, screen_height//2 - 100)
+        draw_text("Please, follow the instructions .. \n\n\n\nEach player has 30 pieces only. "
+                  "If they run out, the game ends.\n\nChoose a cell from the board\n\nand click on it "
+                  "as shown on the board ..", font_large, white, screen_width // 2, screen_height//2 - 250)
