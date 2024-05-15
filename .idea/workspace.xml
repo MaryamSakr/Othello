@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4a04eb12-97cb-442f-94e1-06edbb897829" name="Changes" comment="" />
+    <list default="true" id="4a04eb12-97cb-442f-94e1-06edbb897829" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/Board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameState.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameState.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/instructionsScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/instructionsScreen.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,6 +34,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pythonProject2" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -57,12 +63,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="74724ef0-d9b9-4853-977f-f0c1631c8a5b" name="Changes" comment="" />
+      <changelist id="4a04eb12-97cb-442f-94e1-06edbb897829" name="Changes" comment="" />
       <created>1715614737558</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715614737558</updated>
       <workItem from="1715614744483" duration="63104000" />
+      <workItem from="1715773707541" duration="49000" />
     </task>
     <servers />
   </component>
